@@ -3,6 +3,7 @@ import * as Editor from './editor.js';
 import * as Term from './terminal.js';
 import * as Palette from './palette.js';
 import * as Menu from './menu.js';
+import * as Translator from './translator.js';
 import { bus } from './bus.js';
 import { store } from './store.js';
 import { $, fmt } from './util.js';
@@ -93,7 +94,10 @@ window.addEventListener(
     if (e.key === 'Escape') {
       if (Palette.isOpen()) return;
       const t = Date.now();
-      if (t - lastEsc < 600) P.setMode('stealth');
+      if (t - lastEsc < 600) {
+        P.setMode('stealth');
+        bus.emit('boss');
+      }
       lastEsc = t;
       return;
     }
@@ -117,6 +121,11 @@ window.addEventListener(
     if (e.altKey && e.key.toLowerCase() === 'p') {
       e.preventDefault();
       P.setMode(P.getState().mode === 'peek' ? 'stealth' : 'peek');
+      return;
+    }
+    if (e.altKey && e.key.toLowerCase() === 't') {
+      e.preventDefault();
+      bus.emit('open-file', 'translate.md');
       return;
     }
     if (e.altKey && e.key.toLowerCase() === 'f') {
@@ -165,6 +174,7 @@ window.addEventListener(
 );
 
 /* ---------- boot ---------- */
+Translator.init();
 Editor.init();
 Term.init();
 Palette.init();

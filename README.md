@@ -38,6 +38,7 @@ Open the command palette with `Ctrl+P` and paste a YouTube link, or type in the 
 | `Up` / `Down` | volume |
 | `Alt+P` | peek: small video panel |
 | `Alt+F` | full screen video |
+| `Alt+T` | translator: type Chinese, get Vietnamese + pinyin (`Ctrl+Enter` to translate now) |
 | `Esc Esc` | hide the video at once (stealth) |
 | `Ctrl+P` | command palette / paste link |
 | ``Ctrl+` `` | focus terminal |

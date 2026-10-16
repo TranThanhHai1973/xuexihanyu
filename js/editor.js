@@ -9,6 +9,7 @@ const PROJECT = 'hanzi-trainer';
 const FILES = {
   'main.py': { lang: 'py', icon: 'fi-py', lines: [...MAIN_PY], type: true },
   'utils.py': { lang: 'py', icon: 'fi-py', lines: [...UTILS_PY], type: true },
+  'translate.md': { lang: 'md', icon: 'fi-md', view: true },
   'notes.md': { lang: 'md', icon: 'fi-md', dynamic: notesLines },
   'history.json': { lang: 'json', icon: 'fi-json', dynamic: historyLines },
   'README.md': { lang: 'md', icon: 'fi-md', lines: README_MD },
@@ -19,6 +20,7 @@ for (const f of Object.values(FILES)) f.startNum = 1;
 const TREE = [
   { dir: 'src', files: ['main.py', 'utils.py'] },
   { dir: 'data', files: ['history.json'] },
+  { file: 'translate.md' },
   { file: 'notes.md' },
   { file: 'README.md' },
   { file: 'requirements.txt' },
@@ -90,13 +92,20 @@ function rowHtml(num, text, lang, isLast) {
 
 function render() {
   const f = FILES[active];
-  const ls = lines(f);
-  f.startNum = f.startNum || 1;
-  codeEl.innerHTML = ls
-    .map((t, i) => rowHtml(f.startNum + i, t, f.lang, f.type && i === ls.length - 1))
-    .join('');
-  codeEl.scrollTop = codeEl.scrollHeight;
-  if (f.type) emitCursor(f);
+  $('#tr').hidden = !f.view;
+  codeEl.hidden = !!f.view;
+  $('#minimap').hidden = !!f.view;
+  if (f.view) {
+    bus.emit('translate-focus');
+  } else {
+    const ls = lines(f);
+    f.startNum = f.startNum || 1;
+    codeEl.innerHTML = ls
+      .map((t, i) => rowHtml(f.startNum + i, t, f.lang, f.type && i === ls.length - 1))
+      .join('');
+    codeEl.scrollTop = codeEl.scrollHeight;
+    if (f.type) emitCursor(f);
+  }
   renderTabs();
   renderTree();
   renderCrumbs();
@@ -220,6 +229,7 @@ export function init() {
     if (t) openFile(t.dataset.f);
   });
   bus.on('open-file', openFile);
+  bus.on('boss', () => openFile('main.py'));
   bus.on('notes-changed', refreshDynamic);
   bus.on('meta', refreshDynamic);
   render();

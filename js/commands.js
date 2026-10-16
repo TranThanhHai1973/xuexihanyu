@@ -66,6 +66,7 @@ const HELP = [
   'cc on|off          captions',
   'mode stealth|peek|full',
   'note <text>        save a phrase with the current timestamp',
+  'tr [text]          open the translator (Chinese to Vietnamese + pinyin)',
   'notes | history    open notes.md / history.json',
   'clear              clear terminal',
 ];
@@ -123,6 +124,11 @@ export async function run(line) {
       bus.emit('notes-changed');
       return [ok(`saved at ${fmt(P.now())}`)];
     }
+    case 'tr':
+    case 'translate':
+      bus.emit('open-file', 'translate.md');
+      if (rest) bus.emit('translate-set', rest);
+      return [ok('opened translate.md')];
     case 'notes':
       bus.emit('open-file', 'notes.md');
       return [ok('opened notes.md')];
@@ -153,6 +159,7 @@ export const COMMANDS = [
   { label: 'View: Hide Preview (stealth)', key: 'Esc Esc', run: () => P.setMode('stealth') },
   { label: 'View: Show Preview Panel (peek)', key: 'Alt+P', run: () => P.setMode('peek') },
   { label: 'View: Toggle Full Screen Preview', key: 'Alt+F', run: () => P.setMode(P.getState().mode === 'full' ? 'stealth' : 'full') },
+  { label: 'File: Open Translator (translate.md)', key: 'Alt+T', run: () => bus.emit('open-file', 'translate.md') },
   { label: 'File: Open notes.md', run: () => bus.emit('open-file', 'notes.md') },
   { label: 'File: Open history.json', run: () => bus.emit('open-file', 'history.json') },
   { label: 'Developer: Reload Window', key: 'Ctrl+R', run: () => location.reload() },

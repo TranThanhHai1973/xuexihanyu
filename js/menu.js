@@ -16,6 +16,7 @@ const MENUS = {
     showFull,
     hideVideo,
     SEP,
+    { label: 'Open Translator', key: 'Alt+T', run: () => bus.emit('open-file', 'translate.md') },
     { label: 'Open notes.md', run: () => bus.emit('open-file', 'notes.md') },
     { label: 'Open history.json', run: () => bus.emit('open-file', 'history.json') },
     SEP,
@@ -24,6 +25,7 @@ const MENUS = {
   View: [
     { label: 'Command Palette...', key: 'Ctrl+P', run: () => Palette.open() },
     { label: 'Terminal', key: 'Ctrl+`', run: () => bus.emit('focus-terminal') },
+    { label: 'Translator', key: 'Alt+T', run: () => bus.emit('open-file', 'translate.md') },
     SEP,
     showPeek,
     showFull,

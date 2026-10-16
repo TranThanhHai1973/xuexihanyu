@@ -94,6 +94,11 @@
       <div id="editor">
         <div id="code" tabindex="-1"></div>
         <div id="minimap" aria-hidden="true"></div>
+        <div id="tr" hidden>
+          <div class="tr-head"><span># translate.md</span><button id="tr-clear" aria-label="Clear">Clear</button></div>
+          <textarea id="tr-in" rows="4" spellcheck="false" lang="zh-CN" placeholder="输入中文 ... (Ctrl+Enter)" aria-label="Chinese input"></textarea>
+          <div id="tr-out"></div>
+        </div>
         <div id="dbg" role="toolbar" aria-label="Debug toolbar">
           <button id="d-play" title="Continue / Pause (F5)" class="g"><svg class="ic"><use href="#i-pause"/></svg></button>
           <button id="d-back" title="Step Back (Left)"><svg class="ic"><use href="#i-back"/></svg></button>

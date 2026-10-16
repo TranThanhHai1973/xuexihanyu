@@ -65,6 +65,24 @@ input{font:inherit;color:inherit}
 @keyframes blink{50%{opacity:0}}
 #minimap{width:90px;flex:none;opacity:.35;background:repeating-linear-gradient(180deg,#6a737d 0 2px,transparent 2px 5px);background-size:60% 100%;background-repeat:no-repeat;background-position:10px 0;mask-image:linear-gradient(180deg,#000 70%,transparent)}
 
+#code[hidden],#minimap[hidden]{display:none}
+#tr{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;padding:46px 28px 14px;overflow:auto;scrollbar-width:thin;scrollbar-color:#424242 transparent}
+#tr[hidden]{display:none}
+.tr-head{display:flex;justify-content:space-between;align-items:center;color:#6a9955;font-family:var(--mono);font-size:13px}
+.tr-head button{color:#9d9d9d;font-size:12px;padding:2px 8px;border:1px solid #454545;border-radius:3px}
+.tr-head button:hover{color:#fff;background:#37373d}
+#tr-in{width:100%;resize:vertical;min-height:84px;background:#1b1b1b;color:#d4d4d4;border:1px solid #3c3c3c;border-radius:4px;padding:10px 12px;font:20px/1.6 "Microsoft YaHei","PingFang SC","Noto Sans SC",var(--ui);outline:none}
+#tr-in:focus{border-color:var(--blue)}
+#tr-out{display:flex;flex-direction:column;gap:10px}
+.trc{position:relative;padding:10px 70px 10px 14px;background:#252526;border-left:3px solid var(--blue);border-radius:3px}
+.trc .zh{font:22px/2.1 "Microsoft YaHei","PingFang SC","Noto Sans SC",var(--ui);color:#e8e8e8}
+.trc ruby{margin:0 3px;ruby-align:center}
+.trc ruby rt{font-size:12px;color:#4ec9b0;font-family:var(--ui)}
+.trc .vi{margin-top:2px;font-size:16px;line-height:1.5;color:#ce9178}
+.trc .vi.err{color:#f48771;font-size:13px}
+.tr-note{position:absolute;top:8px;right:8px;font-size:11px;color:#9d9d9d;padding:2px 6px;border:1px solid #454545;border-radius:3px}
+.tr-note:hover{color:#fff;background:#37373d}
+.tr-empty{color:#858585;font-size:13px;padding:6px 2px}
 #dbg{position:absolute;top:6px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:3px 6px;background:#333;border:1px solid #454545;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.6);z-index:5}
 #dbg button{width:28px;height:26px;display:flex;align-items:center;justify-content:center;color:#75beff;border-radius:3px}
 #dbg button:hover{background:#454545}

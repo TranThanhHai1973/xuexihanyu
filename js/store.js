@@ -1,5 +1,5 @@
 const KEY = 'codecamo:v1';
-const defaults = { last: null, start: 0, speed: 1, cc: false, notes: [], history: [] };
+const defaults = { last: null, start: 0, speed: 1, cc: false, draft: '', notes: [], history: [] };
 
 let data = { ...defaults };
 try {
