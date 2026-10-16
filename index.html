@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#1e1e1e" />
+<title>main.py - hanzi-trainer - Visual Studio Code</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-mode="stealth">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-files" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="8" r="2"/><path d="M6 7v10M18 10c0 5-8 3-12 7"/></symbol>
+    <symbol id="i-run" viewBox="0 0 24 24"><path d="M7 4l12 8-12 8z"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="14" y="14" width="6" height="6"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></symbol>
+    <symbol id="i-fwd" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="m7 22-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></symbol>
+    <symbol id="i-restart" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-err" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4 2 20h20z"/><path d="M12 10v4M12 17v.5"/></symbol>
+  </defs>
+</svg>
+
+<div id="player" aria-hidden="true">
+  <div class="pl-head">
+    <span>Preview &mdash; localhost:3000</span>
+    <button id="pl-close" class="pl-x" aria-label="Close preview"><svg class="ic"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="pl-stage">
+    <div id="yt-mount"></div>
+    <div class="pl-catch" id="pl-catch"></div>
+  </div>
+  <div class="pl-bar">
+    <button id="pb-play" aria-label="Play or pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+    <button id="pb-back" aria-label="Back 5 seconds"><svg class="ic"><use href="#i-back"/></svg></button>
+    <button id="pb-fwd" aria-label="Forward 5 seconds"><svg class="ic"><use href="#i-fwd"/></svg></button>
+    <button id="pb-loop" aria-label="Loop"><svg class="ic"><use href="#i-repeat"/></svg></button>
+    <span id="pb-time">00:00</span>
+    <input id="pb-seek" type="range" min="0" max="1000" value="0" aria-label="Seek" />
+    <span id="pb-dur">00:00</span>
+    <button id="pb-speed" aria-label="Speed">1.00x</button>
+    <button id="pb-exit" aria-label="Exit full screen">Esc Esc</button>
+  </div>
+</div>
+
+<div id="app">
+  <header id="titlebar">
+    <div class="tb-left">
+      <span class="tb-logo"></span>
+      <span class="tb-menu">File</span><span class="tb-menu">Edit</span><span class="tb-menu">Selection</span><span class="tb-menu">View</span><span class="tb-menu">Go</span><span class="tb-menu">Run</span><span class="tb-menu">Terminal</span><span class="tb-menu">Help</span>
+    </div>
+    <div class="tb-title" id="tb-title">main.py - hanzi-trainer - Visual Studio Code</div>
+    <div class="tb-right"><span class="wc">&#8211;</span><span class="wc">&#9633;</span><span class="wc">&#10005;</span></div>
+  </header>
+
+  <div id="workbench">
+    <nav id="activitybar" aria-label="Activity bar">
+      <div class="ab-top">
+        <button class="ab on" aria-label="Explorer"><svg class="ic"><use href="#i-files"/></svg></button>
+        <button class="ab" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></button>
+        <button class="ab" aria-label="Source control"><svg class="ic"><use href="#i-branch"/></svg></button>
+        <button class="ab" aria-label="Run and debug"><svg class="ic"><use href="#i-run"/></svg></button>
+        <button class="ab" aria-label="Extensions"><svg class="ic"><use href="#i-ext"/></svg></button>
+      </div>
+      <div class="ab-bottom">
+        <button class="ab" aria-label="Accounts"><svg class="ic"><use href="#i-user"/></svg></button>
+        <button class="ab" aria-label="Manage"><svg class="ic"><use href="#i-gear"/></svg></button>
+      </div>
+    </nav>
+
+    <aside id="sidebar">
+      <div class="sb-head">EXPLORER</div>
+      <div class="sb-sec"><svg class="ic sm"><use href="#i-down"/></svg> HANZI-TRAINER</div>
+      <div id="tree"></div>
+    </aside>
+
+    <main id="main">
+      <div id="tabs" role="tablist"></div>
+      <div id="crumbs"></div>
+      <div id="editor">
+        <div id="code" tabindex="-1"></div>
+        <div id="minimap" aria-hidden="true"></div>
+        <div id="dbg" role="toolbar" aria-label="Debug toolbar">
+          <button id="d-play" title="Continue / Pause (F5)" class="g"><svg class="ic"><use href="#i-pause"/></svg></button>
+          <button id="d-back" title="Step Back (Left)"><svg class="ic"><use href="#i-back"/></svg></button>
+          <button id="d-fwd" title="Step Over (Right)"><svg class="ic"><use href="#i-fwd"/></svg></button>
+          <button id="d-loop" title="Step Into (L)"><svg class="ic"><use href="#i-repeat"/></svg></button>
+          <span class="dsep"></span>
+          <button id="d-restart" title="Restart" class="g"><svg class="ic"><use href="#i-restart"/></svg></button>
+          <button id="d-stop" title="Stop" class="r"><svg class="ic"><use href="#i-stop"/></svg></button>
+        </div>
+      </div>
+
+      <section id="panel">
+        <div class="pn-tabs">
+          <span class="pn-tab" data-p="problems">PROBLEMS</span>
+          <span class="pn-tab" data-p="output">OUTPUT</span>
+          <span class="pn-tab" data-p="debug">DEBUG CONSOLE</span>
+          <span class="pn-tab on" data-p="terminal">TERMINAL</span>
+        </div>
+        <div class="pn-body" id="pn-terminal">
+          <div id="term-out"></div>
+          <label class="term-line"><span class="ps1">dev@hanzi:~/hanzi-trainer$</span>
+            <input id="term-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input" /></label>
+        </div>
+        <div class="pn-body" id="pn-problems" hidden>No problems have been detected in the workspace.</div>
+        <div class="pn-body" id="pn-output" hidden></div>
+        <div class="pn-body" id="pn-debug" hidden>Python Debugger: Current File<br />Debugger attached.</div>
+      </section>
+    </main>
+  </div>
+
+  <footer id="statusbar">
+    <div class="st-left">
+      <span class="st"><svg class="ic sm"><use href="#i-branch"/></svg> main*</span>
+      <span class="st"><svg class="ic sm"><use href="#i-err"/></svg> 0 <svg class="ic sm"><use href="#i-warn"/></svg> 0</span>
+    </div>
+    <div class="st-right">
+      <span class="st btn" id="st-time" title="Playback position">00:00 / 00:00</span>
+      <span class="st btn" id="st-loop" title="Loop A-B">loop off</span>
+      <span class="st btn" id="st-speed" title="Playback speed">1.00x</span>
+      <span class="st btn" id="st-mode" title="View mode">Stealth</span>
+      <span class="st" id="st-pos">Ln 1, Col 1</span>
+      <span class="st">Spaces: 4</span>
+      <span class="st">UTF-8</span>
+      <span class="st">Python 3.11.4</span>
+    </div>
+  </footer>
+</div>
+
+<div id="palette" hidden>
+  <div class="pal-box">
+    <input id="pal-in" type="text" autocomplete="off" spellcheck="false" placeholder="Search files by name (append : to go to line or @ to go to symbol)" aria-label="Command palette" />
+    <div id="pal-list" role="listbox"></div>
+  </div>
+</div>
+<div id="menu-pop" hidden></div>
+<div id="toasts"></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
